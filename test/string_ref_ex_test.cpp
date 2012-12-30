@@ -4,6 +4,7 @@
 #include <cassert>
 #include <memory>
 #include <cstring>
+#include <list>
 
 void f(const std::string_ref& sr)
 {
@@ -30,16 +31,17 @@ private:
   std::shared_ptr<char> _ptr;
 };
 
-template <class charT>
-inline const char* string_ref_begin(const MyString& s)
+namespace std
 {
-  return s.cptr();
-}
+  inline const char* string_ref_begin(const MyString& s)
+  {
+    return s.cptr();
+  }
 
-template <class charT>
-inline const char* string_ref_end(const MyString& s)
-{
-  return s.cptr() + s.length();
+  inline const char* string_ref_end(const MyString& s)
+  {
+    return s.cptr() + s.length();
+  }
 }
 
 int main()
@@ -48,5 +50,9 @@ int main()
   f(s);
   MyString ms("foo");
   f(ms);
+
+  std::list<char> char_list;
+//  f(char_list); // compile-time error
+
   return 0;
 }

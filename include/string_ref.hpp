@@ -4,13 +4,15 @@
 namespace std {
 
   // basic_string_ref helpers
-  template <class charT, class String>
-  inline const charT* string_ref_begin(const String& s)
+  template <class charT, class traits, class Allocator>
+  inline
+  const charT* string_ref_begin(const basic_string<charT, traits, Allocator>& s)
   {
     return s.c_str();
   }
-  template <class charT, class String>
-  inline const charT* string_ref_end(const String& s)
+  template <class charT, class traits, class Allocator>
+  inline
+  const charT* string_ref_end(const basic_string<charT, traits, Allocator>& s)
   {
     return s.c_str() + s.size();
   }
@@ -41,7 +43,7 @@ namespace std {
 
     template <class String>
     basic_string_ref(const String& s)
-      : _beg(string_ref_begin<charT>(s)), _end(string_ref_end<charT>(s)) {}
+      : _beg(::std::string_ref_begin(s)), _end(::std::string_ref_end(s)) {}
 
     // [string.ref.iterators], iterators
     /*constexpr*/ const_iterator begin() const /*noexcept*/ { return _beg; }
